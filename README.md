@@ -193,6 +193,20 @@ Switch palettes instantly with pre-configured themes:
 
 ---
 
+## 💖 Support the Project
+
+If you find this project useful, consider supporting its active maintenance and future development:
+
+<p align="left">
+  <a href="https://buymeacoffee.com/govindtanko"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" /></a>
+  <a href="https://github.com/sponsors/govindtank"><img src="https://img.shields.io/badge/GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Sponsors" /></a>
+  <a href="https://www.patreon.com/govindtank"><img src="https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white" alt="Patreon" /></a>
+</p>
+
+---
+
 ## 📄 License
 
-Apache License 2.0. Free for commercial and open-source use.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+*Maintained with ❤️ by [Govind Tank](https://github.com/govindtank).*

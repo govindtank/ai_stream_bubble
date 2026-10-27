@@ -308,8 +308,7 @@ class _AiStreamBubbleDemoScreenState extends State<AiStreamBubbleDemoScreen> {
           AiMessage(
             id: 'asst_${DateTime.now().millisecondsSinceEpoch}',
             role: AiRole.assistant,
-            content:
-                'Echo response to: "$text"\n\n'
+            content: 'Echo response to: "$text"\n\n'
                 '```json\n'
                 '{\n'
                 '  "status": "received",\n'
@@ -475,9 +474,8 @@ class _AiStreamBubbleDemoScreenState extends State<AiStreamBubbleDemoScreen> {
                       ActionChip(
                         avatar: const Icon(Icons.psychology, size: 16),
                         label: const Text('Stream DeepSeek-R1'),
-                        onPressed: _isStreaming
-                            ? null
-                            : _simulateDeepSeekStream,
+                        onPressed:
+                            _isStreaming ? null : _simulateDeepSeekStream,
                       ),
                       const SizedBox(width: 8),
                       ActionChip(
