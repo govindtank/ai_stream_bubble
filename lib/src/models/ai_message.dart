@@ -94,6 +94,9 @@ class AiMessage {
     this.toolCalls = const [],
     this.status = AiStreamStatus.idle,
     this.thinkingDuration,
+    this.modelName,
+    this.tokenCount,
+    this.tokensPerSecond,
     this.errorMessage,
     this.createdAt,
   });
@@ -105,6 +108,9 @@ class AiMessage {
   final List<AiToolCall> toolCalls;
   final AiStreamStatus status;
   final Duration? thinkingDuration;
+  final String? modelName;
+  final int? tokenCount;
+  final double? tokensPerSecond;
   final String? errorMessage;
   final DateTime? createdAt;
 
@@ -126,6 +132,9 @@ class AiMessage {
     List<AiToolCall>? toolCalls,
     AiStreamStatus? status,
     Duration? thinkingDuration,
+    String? modelName,
+    int? tokenCount,
+    double? tokensPerSecond,
     String? errorMessage,
     DateTime? createdAt,
   }) {
@@ -137,6 +146,9 @@ class AiMessage {
       toolCalls: toolCalls ?? this.toolCalls,
       status: status ?? this.status,
       thinkingDuration: thinkingDuration ?? this.thinkingDuration,
+      modelName: modelName ?? this.modelName,
+      tokenCount: tokenCount ?? this.tokenCount,
+      tokensPerSecond: tokensPerSecond ?? this.tokensPerSecond,
       errorMessage: errorMessage ?? this.errorMessage,
       createdAt: createdAt ?? this.createdAt,
     );

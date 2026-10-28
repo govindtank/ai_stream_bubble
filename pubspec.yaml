@@ -1,6 +1,6 @@
 name: ai_stream_bubble
 description: High-performance streaming AI message bubble with DeepSeek/Claude reasoning accordions, code artifacts, tool-call chips, and auto-scroll locks.
-version: 1.0.0
+version: 1.1.0
 homepage: https://github.com/govindtank/ai_stream_bubble
 repository: https://github.com/govindtank/ai_stream_bubble
 issue_tracker: https://github.com/govindtank/ai_stream_bubble/issues

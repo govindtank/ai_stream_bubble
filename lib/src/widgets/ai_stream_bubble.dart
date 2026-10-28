@@ -150,11 +150,76 @@ class _AiStreamBubbleState extends State<AiStreamBubble> {
     return blocks;
   }
 
+  List<InlineSpan> _parseInlineMarkdown(
+      String text, TextStyle baseStyle, AiBubbleTheme activeTheme) {
+    final spans = <InlineSpan>[];
+    final regex = RegExp(r'(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)');
+    int lastEnd = 0;
+
+    for (final match in regex.allMatches(text)) {
+      if (match.start > lastEnd) {
+        spans.add(TextSpan(text: text.substring(lastEnd, match.start)));
+      }
+      final raw = match.group(0)!;
+      if (raw.startsWith('`') && raw.endsWith('`')) {
+        final codeText = raw.substring(1, raw.length - 1);
+        spans.add(WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.5),
+            margin: const EdgeInsets.symmetric(horizontal: 2.0),
+            decoration: BoxDecoration(
+              color: activeTheme.codeBackgroundColor,
+              borderRadius: BorderRadius.circular(4.0),
+              border:
+                  Border.all(color: activeTheme.codeBorderColor, width: 0.8),
+            ),
+            child: Text(
+              codeText,
+              style: TextStyle(
+                fontFamily: activeTheme.codeFontFamily,
+                fontSize: baseStyle.fontSize != null
+                    ? baseStyle.fontSize! * 0.9
+                    : 12.0,
+                color: activeTheme.codeTextColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ));
+      } else if (raw.startsWith('**') && raw.endsWith('**')) {
+        spans.add(TextSpan(
+          text: raw.substring(2, raw.length - 2),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ));
+      } else if (raw.startsWith('*') && raw.endsWith('*')) {
+        spans.add(TextSpan(
+          text: raw.substring(1, raw.length - 1),
+          style: const TextStyle(fontStyle: FontStyle.italic),
+        ));
+      }
+      lastEnd = match.end;
+    }
+
+    if (lastEnd < text.length) {
+      spans.add(TextSpan(text: text.substring(lastEnd)));
+    }
+
+    return spans;
+  }
+
   Widget _buildPlainText(String text, AiBubbleTheme activeTheme,
       {bool appendCursor = false}) {
     final textColor = widget.message.isUser
         ? activeTheme.userTextColor
         : activeTheme.assistantTextColor;
+
+    final baseStyle = TextStyle(
+      fontSize: 14.0,
+      height: 1.5,
+      color: textColor,
+      fontFamily: activeTheme.fontFamily,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -162,17 +227,58 @@ class _AiStreamBubbleState extends State<AiStreamBubble> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
-            child: SelectableText(
-              text,
-              style: TextStyle(
-                fontSize: 14.0,
-                height: 1.5,
-                color: textColor,
-                fontFamily: activeTheme.fontFamily,
+            child: SelectableText.rich(
+              TextSpan(
+                style: baseStyle,
+                children: _parseInlineMarkdown(text, baseStyle, activeTheme),
               ),
             ),
           ),
           if (appendCursor) AiStreamingCursor(color: activeTheme.cursorColor),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildModelHeader(AiBubbleTheme activeTheme) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.message.modelName != null) ...[
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+              decoration: BoxDecoration(
+                color: activeTheme.cursorColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(4.0),
+                border: Border.all(
+                  color: activeTheme.cursorColor.withValues(alpha: 0.25),
+                  width: 0.8,
+                ),
+              ),
+              child: Text(
+                widget.message.modelName!,
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w700,
+                  color: activeTheme.cursorColor,
+                  fontFamily: activeTheme.codeFontFamily,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8.0),
+          ],
+          if (widget.message.tokensPerSecond != null)
+            Text(
+              '⚡ ${widget.message.tokensPerSecond!.toStringAsFixed(1)} tok/s',
+              style: TextStyle(
+                fontSize: 10.5,
+                color: activeTheme.actionIconColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
         ],
       ),
     );
@@ -323,6 +429,11 @@ class _AiStreamBubbleState extends State<AiStreamBubble> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // 0. Model Badge & Speed Tag Header
+                        if (!isUser &&
+                            (widget.message.modelName != null ||
+                                widget.message.tokensPerSecond != null))
+                          _buildModelHeader(activeTheme),
                         // 1. Collapsible Reasoning Accordion (DeepSeek/Claude thinking)
                         if (widget.message.hasReasoning)
                           AiReasoningAccordion(

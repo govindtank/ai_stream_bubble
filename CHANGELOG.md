@@ -1,3 +1,9 @@
+## 1.1.0
+
+- **Inline Markdown Support**: Full support for inline code tags (`` `code` ``), bold (`**text**`), and italic (`*text*`) without heavyweight AST dependencies.
+- **Model Badge & Live Throughput Header**: Displays AI model identity badge (`DeepSeek-R1`, `Claude 3.5 Sonnet`, `GPT-4o`) and real-time generation speed (`⚡ 64 tok/s`).
+- **Telemetry Enhancements**: Added `modelName`, `tokenCount`, and `tokensPerSecond` attributes to `AiMessage`.
+
 ## 1.0.0
 
 - Initial release of `ai_stream_bubble`.
