@@ -9,6 +9,10 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" alt="License"></a>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/govindtank/ai_stream_bubble/main/doc/assets/stream_bubble_showcase.svg" alt="ai_stream_bubble Showcase" width="100%">
+</p>
+
 A high-performance streaming AI message bubble for Flutter. Built specifically for modern Conversational AI (DeepSeek-R1, Claude, ChatGPT, Gemini, Ollama) with **zero-jank token streaming, collapsible reasoning accordions, syntax-highlighted code artifacts, tool-call status chips, and smart auto-scroll locking**.
 
 ---
